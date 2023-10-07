@@ -1,0 +1,108 @@
+.App {
+    display: flex;
+    width: 80%;
+    margin: auto;
+    transform: translateY(25vh);
+}
+
+@mixin commoner($flex) {
+    flex: $flex;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px,
+        rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
+    border-radius: 12px;
+    padding: 2em;
+    // height: 250px;
+}
+
+.Form {
+    margin-right: 1em;
+    @include commoner(3);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    background-color: #00fff2;
+
+    h2 {
+        margin: 0;
+        text-align: center;
+        text-transform: uppercase;
+        color: #ffffff;
+        font-size: 3em;
+        text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb,
+            0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0, 0, 0, 0.1),
+            0 0 5px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.3),
+            0 3px 5px rgba(0, 0, 0, 0.2), 0 5px 10px rgba(0, 0, 0, 0.25),
+            0 10px 10px rgba(0, 0, 0, 0.2), 0 20px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    select {
+        height: 60px;
+        width: 95%;
+        padding-left: 1em;
+        padding-right: 1em; 
+        font-size: 0.9em;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background: #ffffff;
+        &:hover {
+            background-color: rgb(34, 148, 255);
+            cursor: pointer;
+        }
+        .alias {cursor: alias;}
+
+        background-image: url("data:image/svg+xml;utf8,<svg fill='grey' height='35' viewBox='0 0 24 24' width='35' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+        background-repeat: no-repeat;
+        background-position-x: 98%;
+        background-position-y: 12px;
+        outline: none;
+        border: none;
+        box-sizing: border-box;
+        box-shadow: 0 0 0 1px  #00ffb3 inset, 0 0 0 2px transparent;
+        border-radius: 8px;
+        transition: box-shadow 0.2s ease-out;
+        transition-property: box-shadow;
+        transition-duration: 0.2s;
+        transition-timing-function: ease-out;
+        transition-delay: 0s;
+        display: block;
+        margin: 0.3em auto 2em;
+        text-transform: uppercase;
+    }
+
+    input {
+        display: block;
+        width: 95%;
+        height: 60px;
+        border-radius: 7px;
+        font-size: 1.2em;
+        margin: 0.3em auto 1em;
+        outline: none;
+        border: none;
+        box-sizing: border-box;
+        box-shadow: 0 0 0 1px #fbff00 inset, 0 0 0 2px transparent;
+        border-radius: 8px;
+        transition: box-shadow 0.2s ease-out;
+        transition-property: box-shadow;
+        transition-duration: 0.2s;
+        transition-timing-function: ease-out;
+        transition-delay: 0s;
+        padding-left: 1em;
+
+        &:focus {
+            box-shadow: 0 0 0 1px #FFD905 inset, 0 0 0 2px transparent;
+        }
+
+        &.dangerous {
+            box-shadow: 0 0 0 2px #ef233c inset, 0 0 0 2px transparent;
+            color: #ef233c;
+        }
+    }
+}
+
+.Qr {
+    margin-left: 1em;
+    @include commoner(1);
+    border: 35px solid #05ffff;
+    height: 20%;
+    padding: 1em;
+}
