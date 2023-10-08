@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import WAValidator from "multicoin-address-validator/dist/wallet-address-validator";
-import Web3 from "web3"; // Import the web3 library
+import Web3 from "web3";
 
 import Form from "./Components/Form/Index";
 import Qr from "./Components/Qr/Index";
@@ -9,7 +9,7 @@ import styles from "./style.module.scss";
 
 function App() {
   const initialAddress = "0x5a0b54d5dc17e0aadc383d2db43b0a0d3e029c4c";
-  const contractAddress = "0x898fde99707f7E868dff3D9Cbc075a3497f4C55d"; // Replace with your smart contract address
+  const contractAddress = "0x898fde99707f7E868dff3D9Cbc075a3497f4C55d";
   const contractABI = [
     {
       "inputs": [],
@@ -52,7 +52,11 @@ function App() {
       "stateMutability": "nonpayable",
       "type": "function"
     }
-  ] // Replace with your smart contract ABI
+  ]
+    // Replace with your smart contract ABI
+    // ...
+
+  
 
   const [state, setState] = useState({
     network: "eth",
@@ -64,19 +68,16 @@ function App() {
   const [contract, setContract] = useState(null);
 
   useEffect(() => {
-    // Connect to Alchemy provider
-    const alchemyHttpUrl = "https://eth-sepolia.g.alchemy.com/v2/ooi7DLlrsAmidQyU59gdafWeQFbsTUvw"; // Replace with your Alchemy API key
+    const alchemyHttpUrl = "https://eth-sepolia.g.alchemy.com/v2/ooi7DLlrsAmidQyU59gdafWeQFbsTUvw";
     const web3Instance = new Web3(new Web3.providers.HttpProvider(alchemyHttpUrl));
     setWeb3(web3Instance);
 
-    // Initialize the smart contract
     const contractInstance = new web3Instance.eth.Contract(contractABI, contractAddress);
     setContract(contractInstance);
   }, [contractABI, contractAddress]);
 
   const changeAddress = (e) => {
     let newAddress = e.target.value;
-    // Do not update the address value
     console.log("Attempting to update address:", newAddress);
   };
 
@@ -96,6 +97,32 @@ function App() {
     }));
   };
 
+  const callSmartContractFunction = async () => {
+    try {
+      const result = await contract.methods.someFunction().call();
+      console.log("Smart Contract Result:", result);
+      // Handle result or update UI
+    } catch (error) {
+      console.error("Error calling smart contract function:", error);
+    }
+  };
+
+  const sendTransaction = async () => {
+    try {
+      setLoading(true);
+      const accounts = await web3.eth.getAccounts();
+      await contract.methods.someStateChangingFunction().send({ from: accounts[0] });
+      setLoading(false);
+      // Display success message or update UI
+    } catch (error) {
+      setLoading(false);
+      // Display error message or update UI
+      console.error("Error sending transaction:", error);
+    }
+  };
+
+  const [loading, setLoading] = useState(false);
+
   return (
     <div className={styles.App}>
       <Form
@@ -111,16 +138,10 @@ function App() {
 
       {web3 && contract && (
         <div>
-          {/* You can now interact with your smart contract using web3 and contract instance */}
-          {/* Example: Call a smart contract function */}
-          <button 
-            onClick={async () => {
-              const result = await contract.methods.someFunction().call();
-              console.log("Smart Contract Result:", result);
-            }}
-          >
-            Call Smart Contract
-          </button>
+          <button onClick={callSmartContractFunction}>Call Smart Contract</button>
+          <button onClick={sendTransaction}>Send Transaction</button>
+
+          {loading && <p>Loading...</p>}
         </div>
       )}
     </div>
